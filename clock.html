@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>带数字的圆盘时钟</title>
+    <title>带平滑秒针的圆盘时钟</title>
     <style>
         .clock {
             position: relative;
@@ -19,9 +19,11 @@
         .hand {
             position: absolute;
             bottom: 50%;
-            background: #017cff;
             transform-origin: bottom;
-            transition: transform 0.5s cubic-bezier(0.4, 2.3, 0.3, 1);
+        }
+
+        .hour, .minute, .second {
+            background: #017cff;
         }
 
         .hour {
@@ -51,7 +53,6 @@
             color: #017cff;
             font-size: 14px;
         }
-
     </style>
 </head>
 <body>
@@ -80,10 +81,11 @@
         document.getElementById('secondHand').style.transform = `rotate(${secondDegree}deg)`;
         document.getElementById('minuteHand').style.transform = `rotate(${minuteDegree}deg)`;
         document.getElementById('hourHand').style.transform = `rotate(${hourDegree}deg)`;
+
+        requestAnimationFrame(updateClock);
     }
 
-    setInterval(updateClock, 1000);
-    updateClock(); // 初始化时钟
+    requestAnimationFrame(updateClock);
 </script>
 </body>
 </html>

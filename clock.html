@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>带平滑秒针的圆盘时钟</title>
+    <title>完整数字圆盘时钟</title>
     <style>
         .clock {
             position: relative;
@@ -44,14 +44,10 @@
 
         .number {
             position: absolute;
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            line-height: 30px;
-            border-radius: 50%;
             font-family: Arial, sans-serif;
             color: #017cff;
             font-size: 14px;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
@@ -60,14 +56,23 @@
     <div class="hand hour" id="hourHand"></div>
     <div class="hand minute" id="minuteHand"></div>
     <div class="hand second" id="secondHand"></div>
-    <!-- 添加数字 -->
-    <div class="number" style="left: 50%; top: 10%; transform: translate(-50%, 0);">12</div>
-    <div class="number" style="right: 10%; top: 50%; transform: translate(0, -50%);">3</div>
-    <div class="number" style="left: 50%; bottom: 10%; transform: translate(-50%, 0);">6</div>
-    <div class="number" style="left: 10%; top: 50%; transform: translate(0, -50%);">9</div>
+    <!-- 动态生成数字 -->
 </div>
 
 <script>
+    const clock = document.querySelector('.clock');
+    for(let i = 1; i <= 12; i++){
+        let number = document.createElement('div');
+        number.className = 'number';
+        let angle = i * 30; // 每个数字之间有30度
+        let radian = angle * Math.PI / 180; // 转换为弧度
+        // 计算位置
+        number.style.left = `${50 + 40 * Math.sin(radian)}%`;
+        number.style.top = `${50 - 40 * Math.cos(radian)}%`;
+        number.textContent = i;
+        clock.appendChild(number);
+    }
+
     function updateClock() {
         const now = new Date();
         const second = now.getSeconds();

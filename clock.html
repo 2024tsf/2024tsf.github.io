@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>圆盘时钟</title>
+    <style>
+        .clock {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border: 5px solid #017cff;
+            border-radius: 50%;
+            margin: 50px auto;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            background: #017cff;
+            transform-origin: bottom;
+            transition: transform 0.5s cubic-bezier(0.4, 2.3, 0.3, 1);
+        }
+
+        .hour {
+            width: 6px;
+            height: 50px;
+        }
+
+        .minute {
+            width: 4px;
+            height: 70px;
+        }
+
+        .second {
+            width: 2px;
+            height: 90px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div class="clock">
+    <div class="hand hour" id="hourHand"></div>
+    <div class="hand minute" id="minuteHand"></div>
+    <div class="hand second" id="secondHand"></div>
+</div>
+
+<script>
+    function updateClock() {
+        const now = new Date();
+        const second = now.getSeconds();
+        const minute = now.getMinutes();
+        const hour = now.getHours();
+
+        const secondDegree = ((second / 60) * 360) + 90; // 转换为度数并修正90度的偏移
+        const minuteDegree = ((minute / 60) * 360) + ((second / 60) * 6) + 90;
+        const hourDegree = ((hour / 12) * 360) + ((minute / 60) * 30) + 90;
+
+        document.getElementById('secondHand').style.transform = `rotate(${secondDegree}deg)`;
+        document.getElementById('minuteHand').style.transform = `rotate(${minuteDegree}deg)`;
+        document.getElementById('hourHand').style.transform = `rotate(${hourDegree}deg)`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // 初始化时钟，以便在页面加载时立即设置正确时间
+</script>
+</body>
+</html>
